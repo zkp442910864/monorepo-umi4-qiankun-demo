@@ -1,0 +1,31 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        // "target": "esnext", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021', or 'ESNEXT'. */
+        // "module": "esnext", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+        // "lib": ["es2021", "dom"],
+        "jsx": "preserve",
+        // "moduleResolution": "NodeNext",
+        // "allowSyntheticDefaultImports": true,
+        // "noLib": false,
+        // "sourceMap": false,
+        // "declaration": false,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "noEmit": true, // 不输出任何文件
+        "skipLibCheck": true, // 跳过库检查
+    },
+    "include": [
+        "./src",
+        "./typings.d.ts"
+    ],
+    "exclude": [
+        "dist",
+        "config",
+        "public",
+        "lib",
+        "node_modules",
+        // "**/.umi/**/*",
+        // "**/.umi-production/**/*"
+    ]
+}
