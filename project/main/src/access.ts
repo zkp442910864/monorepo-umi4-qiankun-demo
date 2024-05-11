@@ -99,7 +99,7 @@ export default function access (initialState: InitialStateType) {
         ...getAllowPage(getRawRouterAccess(rawRouters), allMenuDataMap),
     };
 
-    console.log(getAllowPage(getRawRouterAccess(rawRouters), allMenuDataMap));
+    // console.log(getAllowPage(getRawRouterAccess(rawRouters), allMenuDataMap));
 
     globalData.accessObj = accessObj as typeof accessObj & Record<string, boolean>;
     return accessObj as typeof accessObj & Record<string, boolean>;

@@ -1,7 +1,5 @@
 import Config from 'webpack-chain';
 import path from 'path';
-import CompressionPlugin from 'compression-webpack-plugin';
-import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin';
 
 // https://github.com/neutrinojs/webpack-chain
 const fn = (memo: Config, args: any) => {
@@ -25,7 +23,7 @@ const fn = (memo: Config, args: any) => {
     // 正式环境
     if (process.env.NODE_ENV === 'production') {
         // gzip 压缩
-        memo.plugin('compression-webpack-plugin').use(new CompressionPlugin());
+        // memo.plugin('compression-webpack-plugin').use(new CompressionPlugin());
     }
 
 };
