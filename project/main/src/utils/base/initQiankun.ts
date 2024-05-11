@@ -6,14 +6,11 @@
 export const QIANKUN = window.__POWERED_BY_QIANKUN__ || false;
 /** 父应用传入的参数 */
 export const qiankunParentProps = {
-    /** 父应用传入的前缀 */
-    path_prefix: '',
 };
 
 export const qiankun = {
     // 子应用加载之前
     async bootstrap (props: any) {
-        qiankunParentProps.path_prefix = props?.prefix || '';
     },
     // 子应用 render 之前触发
     async mount (props: any) {

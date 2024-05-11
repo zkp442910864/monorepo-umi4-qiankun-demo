@@ -1,9 +1,9 @@
 import {FC, Suspense, createElement, useMemo} from "react"
 import {Access, Outlet, history, useAccess, useAppData, useOutletContext} from "umi";
-import StatusPage from "../StatusPage";
+import StatusPage from "../../../StatusPage";
 import {ICustomRouter} from "config/routes";
-import Consumer from "./Consumer";
-import TopMenuTag from "./TopMenuTag";
+import {KeepAliveConsumer} from "../KeepAlive";
+import TopMenuTag from "../TopMenuTag";
 
 
 const Content: FC<IContentProps> = ({
@@ -84,9 +84,9 @@ const Content: FC<IContentProps> = ({
             <TopMenuTag />
             {
                 keepAliveRoutes.map((item) => (
-                    <Consumer key={item.path} currentPath={history.location.pathname} pathKey={item.path!}>
+                    <KeepAliveConsumer key={item.path} currentPath={history.location.pathname} pathKey={item.path!}>
                         {accessPackage(item.element, item.path!)}
-                    </Consumer>
+                    </KeepAliveConsumer>
                 ))
             }
             <div className="keep-alive" ref={renderContent}></div>

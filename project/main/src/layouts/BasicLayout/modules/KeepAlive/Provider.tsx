@@ -1,53 +1,54 @@
 import React, {FC, useRef} from "react";
-import {ICacheItem, IKeepAliveProvider, KeepAliveContext} from "./config";
+import {ICacheItem, IKeepAliveProvider, KeepAliveContext} from "../config";
+import {handlerPath} from "@/utils";
 
 
+let sort = 0;
 const Provider: FC<{children: React.ReactNode, renderContent: React.RefObject<HTMLDivElement>}> = ({children, renderContent}) => {
 
     const cache = useRef<Record<string, ICacheItem>>({});
 
     const {current: value} = useRef<IKeepAliveProvider>({
         pushCacheItem: (pathKey, children, dom, reactPortal) => {
+            const afterUrl = handlerPath(pathKey, true);
             let flag = false;
-            if (!cache.current[pathKey.toLocaleLowerCase()]) {
+            if (!cache.current[afterUrl]) {
                 flag = true;
-                cache.current[pathKey.toLocaleLowerCase()] = {
+                cache.current[afterUrl] = {
                     children,
                     dom,
                     pathKey,
                     reactPortal,
                     dateNow: 0,
+                    sort: 0,
                 }
             }
 
-            cache.current[pathKey.toLocaleLowerCase()].dateNow = Date.now();
+            cache.current[afterUrl].sort = sort++;
+            cache.current[afterUrl].dateNow = Date.now();
             return flag;
         },
         removeCacheItem: (pathKey) => {
-            delete cache.current[pathKey.toLocaleLowerCase()];
+            delete cache.current[handlerPath(pathKey, true)];
         },
         getCacheItem: (pathKey) => {
-            return cache.current[pathKey.toLocaleLowerCase()];
+            return cache.current[handlerPath(pathKey, true)];
         },
         getLastCacheItem: () => {
-            const list = Object.values(cache.current).sort((a, b) => b.dateNow - a.dateNow);
-            console.log(list);
+            const list = Object.values(cache.current).sort((a, b) => b.sort - a.sort);
+            // console.log(list);
 
             return list[0];
         },
         getRenderContext: () => renderContent,
+        lookCache: () => console.log(cache),
     })
 
 
     return (
-        <>
-            <KeepAliveContext.Provider
-                value={value}
-            >
-                {children}
-            </KeepAliveContext.Provider>
-        </>
-
+        <KeepAliveContext.Provider value={value} >
+            {children}
+        </KeepAliveContext.Provider>
     )
 };
 

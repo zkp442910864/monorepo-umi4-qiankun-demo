@@ -1,5 +1,5 @@
 /* eslint-disable no-redeclare */
-import {getIntl as rawGetIntl, getLocale, injectIntl} from 'umi';
+import {getIntl as rawGetIntl, getLocale} from 'umi';
 import {ReactNode} from 'react';
 
 const getIntl = (() => {

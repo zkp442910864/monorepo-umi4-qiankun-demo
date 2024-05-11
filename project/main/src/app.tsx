@@ -2,27 +2,30 @@
 
 import {qiankun} from '@/utils/base/initQiankun';
 
-import {menuList} from '../config/routes';
+import {system1} from '../config/routes/system1';
+import {handlerMenuData} from "./utils/base/handlerMenuData";
+import type {ICustomRouter} from "../config/routes";
 
 /** https://umijs.org/zh-CN/plugins/plugin-initial-state */
 export async function getInitialState () {
     let menuData: TObj[] = [];
     let dictionaries = undefined;
     let getDictionData = undefined;
-    let [validMenuDataMap, allMenuDataMap, userData] = [{}, {}, {}] as TObj[];
+    let userData: TObj | undefined = undefined;
+    let [validMenuDataMap, allMenuDataMap] = [{}, {}] as Record<string, ICustomRouter>[];
 
     try {
 
         // TODO: 前置请求，注意报错处理
         const [ajaxMenuData, ajaxUserData] = await Promise.all<TObj[]>([
-            Promise.resolve({fake: true, data: menuList.concat([{path: '/qwe', name: 'ew'}])}),
+            Promise.resolve({fake: true, data: system1}),
             Promise.resolve({data: {}}),
             Promise.resolve({data: {}}),
         ]);
 
 
+        ({validMenuDataMap, allMenuDataMap} = handlerMenuData(ajaxMenuData.data));
         menuData = ajaxMenuData.data;
-
         userData = ajaxUserData.data;
         // dictionaries = mapData;
         // getDictionData = getDictionDataFn;
@@ -30,7 +33,6 @@ export async function getInitialState () {
         console.error(error);
     }
 
-    // window.asdf = getMenuDataApi;
     const data = {
         /** 用户数据 */
         userData,

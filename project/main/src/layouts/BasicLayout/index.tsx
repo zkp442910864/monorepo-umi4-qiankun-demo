@@ -1,25 +1,25 @@
-import {Content, KeepAliveProvider} from "@/layouts/KeepAlive";
+import {KeepAliveProvider} from "@/layouts/BasicLayout/modules/KeepAlive";
 import {QIANKUN} from "@/utils/base/initQiankun";
 import ProLayout from "@ant-design/pro-layout";
 import {ConfigProvider} from "antd";
 import {Link, createSearchParams, history, useAccess, useAppData, useLocation, useModel, useNavigate} from 'umi';
 import {useRef} from "react";
 import Footer from "../Footer";
+import Content from "./modules/Content";
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 const BasicLayout = () => {
     const location = useLocation();
     const appData = useAppData();
-    const accessObj = useAccess();
-    const navigate = useNavigate();
+    // const accessObj = useAccess();
+    // const navigate = useNavigate();
     const initialState = useModel('@@initialState').initialState;
-    const queryData = createSearchParams(history.location.search);
-    const hideLeft = queryData.get('hideLeft') === '1';
-    let hideAll = queryData.get('hideAll') === '1';
-    const hideTop = queryData.get('hideTop') === '1';
+    // const queryData = createSearchParams(history.location.search);
+    // const hideLeft = queryData.get('hideLeft') === '1';
+    // let hideAll = queryData.get('hideAll') === '1';
     const divRef = useRef<HTMLDivElement>(null);
 
-    console.log('appData', appData);
+    // console.log('appData', appData);
     // console.log('accessObj', accessObj);
     // console.log('initialState', initialState);
     // console.log('keepAliveRoutes', keepAliveRoutes);
@@ -34,7 +34,7 @@ const BasicLayout = () => {
                 <ProLayout
                     {...{
                         location,
-                        title: 'system',
+                        title: 'main',
                         logo: './favicon.png',
                         className: QIANKUN ? undefined : 'p-0 un-h-100vh',
                         menu: {
@@ -61,9 +61,8 @@ const BasicLayout = () => {
                         // 固定右部
                         fixSiderbar: true,
                         disableContentMargin: true,
-                        ...hideLeft ? {layout: 'top'} : {},
-                        // ...hideTop ? {layout: 'side'} : {},
-                        ...hideAll ? {menuRender: false, headerRender: false, footerRender: false} : {},
+                        // ...hideLeft ? {layout: 'top'} : {},
+                        // ...hideAll ? {menuRender: false, headerRender: false, footerRender: false} : {},
                         onMenuHeaderClick: (e) => {
                             // e.stopPropagation();
                             // e.preventDefault();

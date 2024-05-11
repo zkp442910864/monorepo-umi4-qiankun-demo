@@ -18,6 +18,7 @@ module.exports = {
     },
     rules: {
         indent: ['off'],
+        '@typescript-eslint/no-unused-vars': [1],
         'import/no-unresolved': ['off'],
         // 'import/no-unresolved': [2, {
         //     ignore: ['^umi/'],

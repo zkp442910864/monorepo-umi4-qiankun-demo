@@ -2,6 +2,8 @@ import {history} from 'umi';
 import {InitialStateType} from '@@/plugin-initialState/@@initialState';
 
 import rawRouters from '../config/routes';
+import globalData from "./hooks/useGlobalDataEffect";
+import {handlerPath} from "./utils";
 
 /**
  * 获取所有路由中的 access 值
@@ -22,7 +24,7 @@ function getRawRouterAccess (rawData: typeof rawRouters) {
                 // 判断是否包含关系
                 judgeMap[item.customAccess] = (allMenuDataMap) => {
                     const strArr = access.split(',');
-                    return strArr.some((path) => !!allMenuDataMap[path]);
+                    return strArr.some((path) => !!allMenuDataMap[handlerPath(path, true)]);
                 };
             }
 
@@ -48,15 +50,17 @@ function getAllowPage (judgeMap: ReturnType<typeof getRawRouterAccess>, allMenuD
 
 /** 按钮权限判断，以菜单维度处理 */
 function operationCode (allMenuDataMap: TObj) {
-    const fn: (code: string) => boolean = (code) => {
+    const fn = (code: string) => {
+        /**
+         * 根据实际业务情况增加按钮的逻辑判断
+         */
 
-        const pageUrl = history.location.pathname;
-        const menuItem = allMenuDataMap[pageUrl.toLocaleLowerCase()];
 
-        if (!menuItem || !menuItem.operateCodes || !menuItem.operateCodes.length) return false;
-
-        // 包含 A1 的话，说明是超级管理员
-        return menuItem.operateCodes.includes(code) || menuItem.operateCodes.includes('A1');
+        // const pageUrl = history.location.pathname;
+        // const menuItem = allMenuDataMap[pageUrl.toLocaleLowerCase()];
+        // if (!menuItem || !menuItem.operateCodes || !menuItem.operateCodes.length) return false;
+        // return menuItem.operateCodes.includes(code) || menuItem.operateCodes.includes('A1');
+        return true;
     };
 
     return fn;
@@ -95,6 +99,9 @@ export default function access (initialState: InitialStateType) {
         ...getAllowPage(getRawRouterAccess(rawRouters), allMenuDataMap),
     };
 
+    console.log(getAllowPage(getRawRouterAccess(rawRouters), allMenuDataMap));
+
+    globalData.accessObj = accessObj as typeof accessObj & Record<string, boolean>;
     return accessObj as typeof accessObj & Record<string, boolean>;
 }
 

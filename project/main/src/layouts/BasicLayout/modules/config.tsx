@@ -7,6 +7,7 @@ export const KeepAliveContext = createContext<IKeepAliveProvider>({
     getCacheItem: (() => {}) as any,
     getLastCacheItem: (() => {}) as any,
     getRenderContext: (() => {}) as any,
+    lookCache: (() => {}) as any,
 });
 // Context.Provider
 
@@ -16,11 +17,12 @@ interface IKeepAliveProvider {
     /** remove dom 缓存 */
     removeCacheItem: (key: string) => void;
     /** 获取 dom 缓存 */
-    getCacheItem: (key: string) => any;
+    getCacheItem: (key: string) => ICacheItem;
     /** 获取最近一次 缓存 */
     getLastCacheItem: () => any;
     /** 获取渲染容器 */
     getRenderContext: () => React.RefObject<HTMLDivElement>;
+    lookCache: () => void;
 }
 
 interface IKeepAliveConsumer {
@@ -39,6 +41,7 @@ interface ICacheItem {
     reactPortal: ReturnType<typeof createPortal>;
     /** 最新激活的时间戳 */
     dateNow: number;
+    sort: number;
 }
 
 export type {
